@@ -1,0 +1,11 @@
+# Binaries
+saloon
+saloon.exe
+bin/
+
+# Environment Variables
+.env
+
+# OS-specific
+.DS_Store
+Thumbs.db

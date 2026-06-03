@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guna Salon | Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-body">
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast" class="toast">Notification Message</div>
+
+    <!-- AUTHENTICATION SECTION (LOGIN CARD) -->
+    <div id="authSection" class="login-wrapper">
+        <div class="login-card">
+            <h2>GUNA ADMIN</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="adminUsername">Username</label>
+                    <input type="text" id="adminUsername" class="form-control" placeholder="Enter admin username" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" class="form-control" placeholder="Enter admin password" required>
+                </div>
+                <button type="submit" class="btn btn-filled" style="width: 100%; margin-top: 10px;">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px; font-size: 13px;">
+                <a href="/" style="color: #888888; text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='#888888'">← Back to Salon Site</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <div id="dashboardSection" style="display: none;">
+        
+        <!-- ADMIN CONTAINER HEADER -->
+        <header class="admin-header">
+            <div class="admin-logo">GUNA <span style="font-weight: 300; font-size: 14px; letter-spacing: 2px; color: #888;">CONTROL PANEL</span></div>
+            <div class="admin-nav">
+                <a href="/" class="btn" style="padding: 8px 20px; font-size: 11px; border-color: rgba(255,255,255,0.1); color: #888;">View Site</a>
+                <button id="logoutBtn" class="btn btn-filled" style="padding: 8px 20px; font-size: 11px;">Logout</button>
+            </div>
+        </header>
+
+        <div class="admin-container">
+            
+            <!-- STATS COUNTER GRID -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <h4>Total Bookings</h4>
+                    <div id="totalBookings" class="stat-number">0</div>
+                </div>
+                <div class="stat-card" style="border-left-color: #f39c12;">
+                    <h4>Pending Approvals</h4>
+                    <div id="pendingBookings" class="stat-number">0</div>
+                </div>
+                <div class="stat-card" style="border-left-color: #2ecc71;">
+                    <h4>Active Reviews</h4>
+                    <div id="activeReviews" class="stat-number">0</div>
+                </div>
+            </div>
+
+            <!-- TABS CONTROLLER -->
+            <div class="dashboard-tabs">
+                <button class="tab-btn active" data-tab="bookingsTab">Bookings</button>
+                <button class="tab-btn" data-tab="reviewsTab">Client Reviews</button>
+            </div>
+
+            <!-- BOOKINGS MANAGEMENT TAB -->
+            <div id="bookingsTab" class="tab-content active">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 20px; letter-spacing: 1px;">Appointment Log</h3>
+                    
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px;">Status Filter:</span>
+                        <select id="bookingFilter" class="form-control" style="width: 180px; padding: 6px 12px;">
+                            <option value="">All Bookings</option>
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Service</th>
+                                <th>Schedule</th>
+                                <th>Notes</th>
+                                <th>Booked On</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: #888; padding: 30px;">Loading bookings logs...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- REVIEWS MANAGEMENT TAB -->
+            <div id="reviewsTab" class="tab-content">
+                <div style="margin-bottom: 20px;">
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 20px; letter-spacing: 1px;">Review Submissions</h3>
+                    <p style="color: #666; font-size: 13px; margin-top: 5px;">Manage client testimonials before they are published live to the landing page carousel.</p>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Rating</th>
+                                <th>Review Snippet</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewsTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #888; padding: 30px;">Loading reviews logs...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            &copy; 2026 Guna Men's Salon & Beauty Parlour | Administrative Dashboard System
+        </footer>
+
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
