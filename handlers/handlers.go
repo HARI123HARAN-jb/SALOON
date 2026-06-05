@@ -80,14 +80,39 @@ func CreateBooking(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Parse date and time in Asia/Kolkata timezone (UTC+5:30)
+	loc := time.FixedZone("IST", 5.5*60*60)
+	dateTimeStr := req.Date + " " + req.Time
+	appointmentTime, err := time.ParseInLocation("2006-01-02 15:04", dateTimeStr, loc)
+	if err != nil {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "Invalid date or time format"})
+		return
+	}
+
+	// Ensure appointment is in the future
+	now := time.Now().In(loc)
+	if appointmentTime.Before(now) {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "Appointment date and time must be in the future"})
+		return
+	}
+
+	// Ensure appointment time is within business hours: 7:30 AM – 10:00 PM
+	hour, min, _ := appointmentTime.Clock()
+	apptMinutes := hour*60 + min
+	if apptMinutes < (7*60 + 30) || apptMinutes > (22*60) {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "Appointment time must be within business hours (7:30 AM – 10:00 PM)"})
+		return
+	}
+
 	booking := database.Booking{
-		Name:    req.Name,
-		Email:   req.Email,
-		Phone:   req.Phone,
-		Service: req.Service,
-		Date:    req.Date,
-		Time:    req.Time,
-		Notes:   req.Notes,
+		Name:            req.Name,
+		Email:           req.Email,
+		Phone:           req.Phone,
+		Service:         req.Service,
+		Date:            req.Date,
+		Time:            req.Time,
+		AppointmentTime: appointmentTime,
+		Notes:           req.Notes,
 	}
 
 	id, err := database.InsertBooking(booking)

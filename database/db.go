@@ -15,16 +15,17 @@ import (
 
 // Booking represents a salon appointment booking.
 type Booking struct {
-	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id"`
-	Name      string             `bson:"name" json:"name"`
-	Email     string             `bson:"email" json:"email"`
-	Phone     string             `bson:"phone" json:"phone"`
-	Service   string             `bson:"service" json:"service"`
-	Date      string             `bson:"date" json:"date"`
-	Time      string             `bson:"time" json:"time"`
-	Status    string             `bson:"status" json:"status"` // pending, confirmed, completed, cancelled
-	CreatedAt time.Time          `bson:"created_at" json:"created_at"`
-	Notes     string             `bson:"notes" json:"notes"`
+	ID              primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Name            string             `bson:"name" json:"name"`
+	Email           string             `bson:"email" json:"email"`
+	Phone           string             `bson:"phone" json:"phone"`
+	Service         string             `bson:"service" json:"service"`
+	Date            string             `bson:"date" json:"date"`
+	Time            string             `bson:"time" json:"time"`
+	AppointmentTime time.Time          `bson:"appointment_time" json:"appointment_time"`
+	Status          string             `bson:"status" json:"status"` // pending, confirmed, completed, cancelled
+	CreatedAt       time.Time          `bson:"created_at" json:"created_at"`
+	Notes           string             `bson:"notes" json:"notes"`
 }
 
 // Review represents a client review.
@@ -105,8 +106,8 @@ func GetBookings(statusFilter string) ([]Booking, error) {
 		filter["status"] = statusFilter
 	}
 
-	// Sort by date and time descending
-	opts := options.Find().SetSort(bson.D{{Key: "created_at", Value: -1}})
+	// Sort by appointment time descending
+	opts := options.Find().SetSort(bson.D{{Key: "appointment_time", Value: -1}})
 
 	cursor, err := BookingsCollection.Find(ctx, filter, opts)
 	if err != nil {

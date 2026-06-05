@@ -81,6 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
     openBookingBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
+            // Set minimum selectable date to today (local client time)
+            const bookingDateInput = document.getElementById('bookingDate');
+            if (bookingDateInput) {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                bookingDateInput.min = `${year}-${month}-${day}`;
+            }
             openModal(bookingModal);
         });
     });
