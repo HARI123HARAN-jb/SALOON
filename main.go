@@ -44,6 +44,9 @@ func loadEnv() {
 		}
 		os.Setenv(key, val)
 	}
+	if err := scanner.Err(); err != nil {
+		log.Printf("Error scanning .env file: %v", err)
+	}
 	log.Println("Successfully loaded environment variables from .env")
 }
 
