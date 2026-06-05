@@ -95,8 +95,10 @@ func main() {
 	}
 	
 	log.Printf("Server starting on port %s...", port)
-	log.Printf("Landing Page: http://localhost:%s", port)
-	log.Printf("Admin Panel: http://localhost:%s/admin.html", port)
+	if os.Getenv("PORT") == "" {
+		log.Printf("Landing Page: http://localhost:%s", port)
+		log.Printf("Admin Panel: http://localhost:%s/admin.html", port)
+	}
 	
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatalf("Fatal: Server error: %v", err)
