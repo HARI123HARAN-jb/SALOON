@@ -143,6 +143,24 @@ func UpdateBookingStatus(id string, status string) error {
 	return err
 }
 
+// GetBookingByID retrieves a single booking by its hex ID.
+func GetBookingByID(id string) (Booking, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var booking Booking
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return booking, fmt.Errorf("invalid booking ID: %w", err)
+	}
+
+	err = BookingsCollection.FindOne(ctx, bson.M{"_id": objID}).Decode(&booking)
+	if err != nil {
+		return booking, err
+	}
+	return booking, nil
+}
+
 // InsertReview inserts a new customer review into MongoDB.
 func InsertReview(review Review) (primitive.ObjectID, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

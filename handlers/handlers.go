@@ -364,6 +364,17 @@ func AdminUpdateBookingStatus(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Fetch booking details to send customer notification
+	booking, err := database.GetBookingByID(bookingID)
+	if err != nil {
+		log.Printf("Database error loading booking details for notification: %v", err)
+	} else {
+		// Send notification asynchronously in the background
+		if req.Status == "confirmed" || req.Status == "cancelled" {
+			go SendCustomerStatusNotification(booking, req.Status)
+		}
+	}
+
 	writeJSON(w, http.StatusOK, map[string]string{"message": "Booking status updated successfully"})
 }
 
