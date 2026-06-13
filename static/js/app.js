@@ -9,6 +9,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const reviewForm = document.getElementById('reviewForm');
     const reviewsGrid = document.getElementById('reviewsGrid');
     const toast = document.getElementById('toast');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navMenu = document.getElementById('navMenu');
+
+    // Mobile Navigation Toggle
+    if (hamburgerBtn && navMenu) {
+        hamburgerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hamburgerBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on any nav link
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                hamburgerBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    }
 
     // Populate service options dynamically
     const serviceSelect = document.getElementById('bookingService');

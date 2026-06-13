@@ -804,6 +804,40 @@ table.admin-table tbody tr:hover {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* HAMBURGER TOGGLE BUTTON */
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    padding: 0;
+}
+
+.hamburger-btn span {
+    width: 100%;
+    height: 2px;
+    background-color: #d4af37;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 2px;
+}
+
+.hamburger-btn.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
 /* FOOTER */
 footer {
     background: #050505;
@@ -816,30 +850,136 @@ footer {
 }
 
 /* RESPONSIVE DESIGN */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     header {
         padding: 15px 5%;
     }
-    nav {
-        display: none;
+    nav a {
+        margin-left: 20px;
+        font-size: 13px;
     }
     .hero h1 {
-        font-size: 38px;
+        font-size: 45px;
     }
+}
+
+@media (max-width: 768px) {
+    .hamburger-btn {
+        display: flex;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 999;
+        border-left: 1px solid rgba(212, 175, 55, 0.1);
+        padding: 50px 0;
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    nav a {
+        margin-left: 0;
+        margin-bottom: 25px;
+        font-size: 18px;
+        letter-spacing: 2px;
+        color: #ffffff;
+    }
+
+    nav a:hover {
+        color: #d4af37;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+        letter-spacing: 2px;
+    }
+
     .hero p {
-        font-size: 14px;
+        font-size: 13px;
+        letter-spacing: 1px;
     }
+
     section {
-        padding: 70px 5%;
+        padding: 60px 6%;
     }
+
+    .gallery-item {
+        height: 260px;
+    }
+
     .form-row {
         grid-template-columns: 1fr;
-        gap: 0;
+        gap: 15px; /* Spacing between stacked form fields */
     }
+
     .modal-content {
-        padding: 25px;
+        padding: 25px 20px;
+        margin: 10px;
     }
+
+    /* Admin Dashboard adjustments */
+    .dashboard-tabs {
+        gap: 5px;
+    }
+
+    .tab-btn {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
     table.admin-table th, table.admin-table td {
-        padding: 12px 15px;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .login-card {
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 28px;
+    }
+    
+    .logo {
+        font-size: 22px;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        font-size: 12px;
+    }
+    
+    .contact-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+    
+    .contact-buttons .btn, .contact-buttons a {
+        width: 100%;
+        text-align: center;
     }
 }
